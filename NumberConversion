@@ -1,0 +1,77 @@
+/*
+ * File: NumericConversion.cpp
+ * ---------------------------
+ * Name: [TODO: enter name here]
+ * Section: [TODO: enter section leader here]
+ * This file is the starter project for the numeric-conversion problem
+ * in which you implement the functions intToString and stringToInt.
+ * [TODO: rewrite the documentation]
+ */
+
+#include <iostream>
+#include <string>
+#include "console.h"
+#include <cmath>
+using namespace std;
+
+/* Function prototypes */
+
+const static int intToCharConstant = '0';
+
+string intToString(int n);
+int stringToInt(string str);
+
+/* Main program */
+
+int main() {
+    while(true) {
+        int n;
+        string str;
+        cout << "Enter an integer value: ";
+        cin >> n;
+        str = intToString(n);
+        cout << "By coding intToString(" << n << ")\;"<< endl;
+        cout << "I will print the string form: \"" << str << "\"" << endl << endl;
+        cout << "Now, I will print the integer form by coding the following: " << endl;
+        cout << "stringToInt(\"" << n << "\")\;" << endl;
+        cout << "Here's the result: " << stringToInt(str) << endl << endl;
+    }
+    return 0;
+}
+
+string intToString(int n) {
+    string numberString;
+    char sign;
+    char character;
+    if (n < 0) {
+        sign = '-';
+        n *= -1;
+    }
+    if(n/10 != 0) {
+        character = (char) (n % 10) + intToCharConstant;
+        numberString = intToString(n/10) + character;
+    } else {
+        character = (char) n + intToCharConstant;
+        numberString += character;
+    }
+    if(sign == '-') numberString = sign + numberString;
+    return numberString;
+}
+
+int stringToInt(string str) {
+    char sign;
+    int stringNumber;
+    if(!str.empty()){
+        int number = str.at(0) - intToCharConstant;
+        str.erase(0,1);
+        if(number != '-' - intToCharConstant) {
+            int exp = str.size();
+            stringNumber = number * (pow(10.0, exp)) + stringToInt(str);
+        } else {
+            sign = '-';
+            stringNumber = stringToInt(str);
+        }
+    }
+    if (sign == '-') stringNumber *= -1;
+    return stringNumber;
+}
